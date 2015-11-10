@@ -4,7 +4,7 @@ import info.ephyra.util.Dictionary;
 
 import java.util.Map;
 
-import net.didion.jwnl.data.POS;
+import net.sf.extjwnl.data.POS;
 
 /**
  * <p>An <code>Ontology</code> comprises entities and relations between

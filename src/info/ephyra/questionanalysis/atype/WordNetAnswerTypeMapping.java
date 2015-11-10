@@ -12,15 +12,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import net.didion.jwnl.JWNL;
-import net.didion.jwnl.data.IndexWord;
-import net.didion.jwnl.data.POS;
-import net.didion.jwnl.data.PointerUtils;
-import net.didion.jwnl.data.Synset;
-import net.didion.jwnl.data.Word;
-import net.didion.jwnl.data.list.PointerTargetNode;
-import net.didion.jwnl.data.list.PointerTargetNodeList;
-import net.didion.jwnl.dictionary.Dictionary;
+//import net.didion.jwnl.JWNL;
+import net.sf.extjwnl.data.IndexWord;
+import net.sf.extjwnl.data.POS;
+import net.sf.extjwnl.data.PointerUtils;
+import net.sf.extjwnl.data.Synset;
+import net.sf.extjwnl.data.Word;
+import net.sf.extjwnl.data.list.PointerTargetNode;
+import net.sf.extjwnl.data.list.PointerTargetNodeList;
+import net.sf.extjwnl.dictionary.Dictionary;
 
 import org.apache.log4j.Logger;
 
@@ -40,6 +40,7 @@ public class WordNetAnswerTypeMapping {
     private static List<String> wnAtypeMapKeys = null;
     private static PointerUtils pUtils;
     private static boolean initialized = false;
+    private static Dictionary dict;
     
     private static Comparator<AnswerType> atypeComparator = new Comparator<AnswerType>(){
         public int compare(AnswerType o1,AnswerType o2){
@@ -73,13 +74,16 @@ public class WordNetAnswerTypeMapping {
     public static void initialize() throws Exception {
         if (isInitialized()) return;
         
-        if (!JWNL.isInitialized()) {
+        /*if (!JWNL.isInitialized()) {
             String file_properties = System.getProperty("jwnl.configuration");
             if (file_properties == null)
                 throw new Exception("Required property 'jwnl.configuration' is undefined");
             JWNL.initialize(new FileInputStream(file_properties));
-        }
-        pUtils = PointerUtils.getInstance();
+        }*/
+        String file_properties = System.getProperty("jwnl.configuration");
+        if (file_properties == null)
+            throw new Exception("Required property 'jwnl.configuration' is undefined");
+        dict = Dictionary.getInstance(new FileInputStream(file_properties));
         
         Properties properties = Properties.loadFromClassName(WordNetAnswerTypeMapping.class.getName());
         
@@ -117,9 +121,9 @@ public class WordNetAnswerTypeMapping {
         List<AnswerType> focusTypes = new ArrayList<AnswerType>();
 
         try {
-            IndexWord indexWord = Dictionary.getInstance().lookupIndexWord(POS.NOUN, focusText);
+            IndexWord indexWord = dict.lookupIndexWord(POS.NOUN, focusText);
             if (indexWord == null) throw new Exception("Failed to get index word");
-            Synset[] senses = indexWord.getSenses();
+            List<Synset> senses = indexWord.getSenses();
             if (senses == null) throw new Exception("Failed to get synsets");
             
             for (Synset sense : senses) {

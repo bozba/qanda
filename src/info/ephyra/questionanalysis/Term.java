@@ -10,7 +10,7 @@ import java.util.Hashtable;
 import java.util.Map;
 import java.util.Set;
 
-import net.didion.jwnl.data.POS;
+import net.sf.extjwnl.data.POS;
 
 /**
  * <p>A <code>Term</code> comprises one or more tokens of text that form a unit

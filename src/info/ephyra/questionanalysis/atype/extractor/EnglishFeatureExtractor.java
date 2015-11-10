@@ -9,9 +9,9 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import net.didion.jwnl.data.IndexWord;
-import net.didion.jwnl.data.POS;
-import net.didion.jwnl.dictionary.Dictionary;
+import net.sf.extjwnl.data.IndexWord;
+import net.sf.extjwnl.data.POS;
+import net.sf.extjwnl.dictionary.Dictionary;
 
 import org.apache.log4j.Logger;
 
@@ -158,7 +158,7 @@ public class EnglishFeatureExtractor extends FeatureExtractor{
         String mainVerb = tree.getHeadWord();
         //mainVerb = WordnetInterface.getLemma("VERB",mainVerb);
         try {
-            IndexWord word = Dictionary.getInstance().lookupIndexWord(POS.VERB, mainVerb);
+            IndexWord word = Dictionary.getDefaultResourceInstance().lookupIndexWord(POS.VERB, mainVerb);
             String lemma = null;
             if (word != null) lemma = word.getLemma();
             if (lemma != null) mainVerb = lemma;

@@ -14,10 +14,9 @@ import java.util.ListIterator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import net.didion.jwnl.JWNL;
-import net.didion.jwnl.data.IndexWord;
-import net.didion.jwnl.data.POS;
-import net.didion.jwnl.dictionary.Dictionary;
+import net.sf.extjwnl.data.IndexWord;
+import net.sf.extjwnl.data.POS;
+import net.sf.extjwnl.dictionary.Dictionary;
 
 import org.apache.log4j.Logger;
 
@@ -39,6 +38,7 @@ public class FocusFinder {
     private static String treeTemplatesFile;
     // WH word tags that can have siblings are: WP, WDT, WHADJP, WRB
     private static String[] whLabels = {"WP","WDT","WHADJP"};
+    private static Dictionary dict;
     
     /**
      * Initializes static resources. The input properties which must be defined are:
@@ -60,12 +60,16 @@ public class FocusFinder {
         Properties properties = Properties.loadFromClassName(FocusFinder.class.getName());
         
         // initialize JWNL
-        if (!JWNL.isInitialized()) {
+        /*if (!JWNL.isInitialized()) {
             String file_properties = System.getProperty("jwnl.configuration");
             if (file_properties == null)
                 throw new Exception("Required property 'jwnl.configuration' is undefined");
             JWNL.initialize(new FileInputStream(file_properties));
-        }
+        }*/
+        String file_properties = System.getProperty("jwnl.configuration");
+        if (file_properties == null)
+            throw new Exception("Required property 'jwnl.configuration' is undefined");
+        dict = Dictionary.getInstance(new FileInputStream(file_properties));
         
         // load tree templates file
         treeTemplatesFile = properties.getProperty("treeTemplatesFile");
@@ -228,7 +232,7 @@ public class FocusFinder {
             while (m.find()) phrSpaces++;
                 
             try {
-                IndexWord indexWord = Dictionary.getInstance().lookupIndexWord(POS.NOUN, phr);
+                IndexWord indexWord = dict.lookupIndexWord(POS.NOUN, phr);
                 if (indexWord == null) throw new Exception("Failed to get index word");
                 int wrdSpaces = 0;
                 Matcher m2 = Pattern.compile(" ").matcher(indexWord.getLemma());

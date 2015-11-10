@@ -377,7 +377,8 @@ public class PatternLearner {
 		
 		// create WordNet dictionary
 		MsgPrinter.printStatusMsg("Creating WordNet dictionary...");
-		if (!WordNet.initialize("res/ontologies/wordnet/file_properties.xml"))
+		//if (!WordNet.initialize("res/ontologies/wordnet/file_properties.xml"))
+		if (!WordNet.initialize("res/ontologies/extjwnl/dictionary/file_properties.xml"))
 			MsgPrinter.printErrorMsg("Could not create WordNet dictionary.");
 		
 		// load function words (numbers are excluded)
@@ -402,8 +403,8 @@ public class PatternLearner {
 			MsgPrinter.printErrorMsg("Could not load question patterns.");
 		
 		// add knowledge miners used to fetch text passages for pattern learning
-		MsgPrinter.printStatusMsg("Adding BingAzureKM...");
-		Search.addKnowledgeMiner(new BingAzureKM());
+		//MsgPrinter.printStatusMsg("Adding BingAzureKM...");
+		//Search.addKnowledgeMiner(new BingAzureKM());
 //		MsgPrinter.printStatusMsg("Adding IndriKMs...");
 //		for (String[] indriIndices : IndriKM.getIndriIndices())
 //			Search.addKnowledgeMiner(new IndriKM(indriIndices, false));

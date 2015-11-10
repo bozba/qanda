@@ -10,16 +10,16 @@ import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 
-import net.didion.jwnl.JWNL;
-import net.didion.jwnl.JWNLException;
-import net.didion.jwnl.data.IndexWord;
-import net.didion.jwnl.data.IndexWordSet;
-import net.didion.jwnl.data.POS;
-import net.didion.jwnl.data.PointerUtils;
-import net.didion.jwnl.data.Synset;
-import net.didion.jwnl.data.Word;
-import net.didion.jwnl.data.list.PointerTargetNode;
-import net.didion.jwnl.data.list.PointerTargetNodeList;
+import net.sf.extjwnl.JWNLException;
+import net.sf.extjwnl.data.IndexWord;
+import net.sf.extjwnl.data.IndexWordSet;
+import net.sf.extjwnl.data.POS;
+import net.sf.extjwnl.data.PointerUtils;
+import net.sf.extjwnl.data.Synset;
+import net.sf.extjwnl.data.Word;
+import net.sf.extjwnl.data.list.PointerTargetNode;
+import net.sf.extjwnl.data.list.PointerTargetNodeList;
+import net.sf.extjwnl.dictionary.Dictionary;
 
 /**
  * <p>An interface to <a href="http://wordnet.princeton.edu/">WordNet</a>, a
@@ -82,7 +82,7 @@ public class WordNet implements Ontology {
 //	private static final double PERTAINYM_WEIGHT = 0.5;
 	
 	/** WordNet dictionary. */
-	private static net.didion.jwnl.dictionary.Dictionary dict;
+	private static Dictionary dict;
 	
 	/**
 	 * Initializes the wrapper for the WordNet dictionary.
@@ -92,9 +92,9 @@ public class WordNet implements Ontology {
 	public static boolean initialize(String properties) {
 		try {
 			File file = new File(properties);
-			JWNL.initialize(new FileInputStream(file));
+			//JWNL.initialize(new FileInputStream(file));
 			
-			dict = net.didion.jwnl.dictionary.Dictionary.getInstance();
+			dict = Dictionary.getInstance(new FileInputStream(file));
 		} catch (Exception e) {
 			return false;
 		}
@@ -299,14 +299,15 @@ public class WordNet implements Ontology {
 	private static Synset getCommonSynset(String word, POS pos) {
 		if (dict == null) return null;
 		
-		Synset synset = null;
+		List<Synset> synset = null;
 		try {
 			IndexWord indexWord = dict.lookupIndexWord(pos, word);
 			if (indexWord == null) return null;
-			synset = indexWord.getSense(1);
+			indexWord.sortSenses();//TODO : most common megtalalasa?
+			synset = indexWord.getSenses();
 		} catch (JWNLException e) {}
 		
-		return synset;
+		return synset.isEmpty() ? null : synset.get(1);
 	}
 	
 	/**
@@ -333,11 +334,11 @@ public class WordNet implements Ontology {
 	 * @return lemmas
 	 */
 	private static String[] getLemmas(Synset synset) {
-		Word[] words = synset.getWords();
-		String[] lemmas = new String[words.length];
+		List<Word> words = synset.getWords();
+		String[] lemmas = new String[words.size()];
 		
-		for (int i = 0; i < words.length; i++) {
-			lemmas[i] = words[i].getLemma();
+		for (int i = 0; i < words.size(); i++) {
+			lemmas[i] = words.get(i).getLemma();
 			lemmas[i] = lemmas[i].replace("_", " ");
 		}
 		
@@ -400,7 +401,7 @@ public class WordNet implements Ontology {
 	private static Synset[] getHypernymSynsets(Synset synset) {
 		PointerTargetNodeList hypernyms = null;
 		try {
-			hypernyms = PointerUtils.getInstance().getDirectHypernyms(synset);
+			hypernyms = PointerUtils.getDirectHypernyms(synset);
 		} catch (JWNLException e) {}
 		if (hypernyms == null) return null;
 		
@@ -459,7 +460,7 @@ public class WordNet implements Ontology {
 	private static Synset[] getHyponymSynsets(Synset synset) {
 		PointerTargetNodeList hyponyms = null;
 		try {
-			hyponyms = PointerUtils.getInstance().getDirectHyponyms(synset);
+			hyponyms = PointerUtils.getDirectHyponyms(synset);
 		} catch (JWNLException e) {}
 		if (hyponyms == null) return null;
 		
@@ -489,7 +490,7 @@ public class WordNet implements Ontology {
 	private static Synset[] getEntailingSynsets(Synset synset) {
 		PointerTargetNodeList entailing = null;
 		try {
-			entailing = PointerUtils.getInstance().getEntailments(synset);
+			entailing = PointerUtils.getEntailments(synset);
 		} catch (JWNLException e) {}
 		if (entailing == null) return null;
 		
@@ -517,7 +518,7 @@ public class WordNet implements Ontology {
 	private static Synset[] getCausingSynsets(Synset synset) {
 		PointerTargetNodeList causing = null;
 		try {
-			causing = PointerUtils.getInstance().getCauses(synset);
+			causing = PointerUtils.getCauses(synset);
 		} catch (JWNLException e) {}
 		if (causing == null) return null;
 		
@@ -547,7 +548,7 @@ public class WordNet implements Ontology {
 	private static Synset[] getMemberOfSynsets(Synset synset) {
 		PointerTargetNodeList membersOf = null;
 		try {
-			membersOf = PointerUtils.getInstance().getMemberHolonyms(synset);
+			membersOf = PointerUtils.getMemberHolonyms(synset);
 		} catch (JWNLException e) {}
 		if (membersOf == null) return null;
 		
@@ -575,7 +576,7 @@ public class WordNet implements Ontology {
 	private static Synset[] getSubstanceOfSynsets(Synset synset) {
 		PointerTargetNodeList substancesOf = null;
 		try {
-			substancesOf = PointerUtils.getInstance().getSubstanceHolonyms(synset);
+			substancesOf = PointerUtils.getSubstanceHolonyms(synset);
 		} catch (JWNLException e) {}
 		if (substancesOf == null) return null;
 		
@@ -603,7 +604,7 @@ public class WordNet implements Ontology {
 	private static Synset[] getPartOfSynsets(Synset synset) {
 		PointerTargetNodeList partsOf = null;
 		try {
-			partsOf = PointerUtils.getInstance().getPartHolonyms(synset);
+			partsOf = PointerUtils.getPartHolonyms(synset);
 		} catch (JWNLException e) {}
 		if (partsOf == null) return null;
 		
@@ -631,7 +632,7 @@ public class WordNet implements Ontology {
 	private static Synset[] getHasMemberSynsets(Synset synset) {
 		PointerTargetNodeList haveMember = null;
 		try {
-			haveMember = PointerUtils.getInstance().getMemberMeronyms(synset);
+			haveMember = PointerUtils.getMemberMeronyms(synset);
 		} catch (JWNLException e) {}
 		if (haveMember == null) return null;
 		
@@ -659,7 +660,7 @@ public class WordNet implements Ontology {
 	private static Synset[] getHasSubstanceSynsets(Synset synset) {
 		PointerTargetNodeList haveSubstance = null;
 		try {
-			haveSubstance = PointerUtils.getInstance().getSubstanceMeronyms(synset);
+			haveSubstance = PointerUtils.getSubstanceMeronyms(synset);
 		} catch (JWNLException e) {}
 		if (haveSubstance == null) return null;
 		
@@ -687,7 +688,7 @@ public class WordNet implements Ontology {
 	private static Synset[] getHasPartSynsets(Synset synset) {
 		PointerTargetNodeList havePart = null;
 		try {
-			havePart = PointerUtils.getInstance().getPartMeronyms(synset);
+			havePart = PointerUtils.getPartMeronyms(synset);
 		} catch (JWNLException e) {}
 		if (havePart == null) return null;
 		

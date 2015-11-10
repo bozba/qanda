@@ -6,7 +6,7 @@ import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 
-import net.didion.jwnl.data.POS;
+import net.sf.extjwnl.data.POS;
 import edu.cmu.lti.javelin.qa.JavelinOntologyAdapter;
 
 /**

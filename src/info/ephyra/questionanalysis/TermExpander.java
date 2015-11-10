@@ -16,7 +16,8 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import net.didion.jwnl.data.POS;
+import net.sf.extjwnl.data.POS;
+//import net.didion.jwnl.data.POS;
 
 /**
  * Expands single- and multi-token terms by looking them up in one or more open-
