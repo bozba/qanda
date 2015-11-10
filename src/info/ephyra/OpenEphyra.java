@@ -26,6 +26,7 @@ import info.ephyra.nlp.indices.FunctionWords;
 import info.ephyra.nlp.indices.IrregularVerbs;
 import info.ephyra.nlp.indices.Prepositions;
 import info.ephyra.nlp.indices.WordFrequencies;
+import info.ephyra.nlp.semantics.ontologies.DomainOntology;
 import info.ephyra.nlp.semantics.ontologies.Ontology;
 import info.ephyra.nlp.semantics.ontologies.WordNet;
 import info.ephyra.querygeneration.Query;
@@ -42,6 +43,7 @@ import info.ephyra.questionanalysis.QuestionNormalizer;
 import info.ephyra.search.Result;
 import info.ephyra.search.Search;
 import info.ephyra.search.searchers.BingAzureKM;
+import info.ephyra.search.searchers.IndriKM;
 
 import java.util.ArrayList;
 
@@ -269,7 +271,8 @@ public class OpenEphyra
     protected void initFactoid()
     {
         // question analysis
-        Ontology wordNet = new WordNet();
+        //Ontology wordNet = new WordNet();
+    	Ontology wordNet = new DomainOntology("./res/ontologies/cns/ontology.xml","./res/ontologies/cns/alternations.xml","./res/ontologies/cns/costs.xml");
         // - dictionaries for term extraction
         QuestionAnalysis.clearDictionaries();
         QuestionAnalysis.addDictionary(wordNet);
@@ -288,8 +291,10 @@ public class OpenEphyra
         // search
         // - knowledge miners for unstructured knowledge sources
         Search.clearKnowledgeMiners();
-        Search.addKnowledgeMiner(new BingAzureKM());
+        //Search.addKnowledgeMiner(new BingAzureKM());
 
+        Search.addKnowledgeMiner(new IndriKM(new String[]{"D:\\Egyetem\\onlab\\capitals_index"}, false));
+        
         // for (String[] indriIndices : IndriKM.getIndriIndices())
         // Search.addKnowledgeMiner(new IndriKM(indriIndices, false));
         // for (String[] indriServers : IndriKM.getIndriServers())
