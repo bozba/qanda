@@ -197,8 +197,8 @@ public class OpenEphyra
 
         // create WordNet dictionary
         MsgPrinter.printStatusMsg("Creating WordNet dictionary...");
-        if (!WordNet.initialize(dir
-            + "res/ontologies/wordnet/file_properties.xml"))
+        //if (!WordNet.initialize(dir + "res/ontologies/wordnet/file_properties.xml"))
+        if (!WordNet.initialize(dir + "res/ontologies/extjwnl/dictionary/file_properties.xml"))
             MsgPrinter.printErrorMsg("Could not create WordNet dictionary.");
 
         // load function words (numbers are excluded)

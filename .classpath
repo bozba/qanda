@@ -4,7 +4,7 @@
 	<classpathentry kind="var" path="JRE_LIB" sourcepath="JRE_SRC"/>
 	<classpathentry kind="con" path="/home/scottj/dev/projects/OpenEphyra/bin"/>
 	<classpathentry kind="lib" path="D:/Egyetem/onlab/Ephyra/OpenEphyra/lib/nlp/concurrentlinkedhashmap-lru-1.3.2.jar"/>
-	<classpathentry kind="lib" path="D:/Egyetem/onlab/Ephyra/OpenEphyra/lib/nlp/extjwnl-1.9.jar"/>
+	<classpathentry kind="lib" path="D:/Egyetem/onlab/Ephyra/OpenEphyra/lib/nlp/extjwnl-1.9.jar" sourcepath="D:/Egyetem/onlab/extjwnl-1.9"/>
 	<classpathentry kind="lib" path="D:/Egyetem/onlab/Ephyra/OpenEphyra/lib/nlp/extjwnl-data-wn31-1.2.jar"/>
 	<classpathentry kind="lib" path="D:/Egyetem/onlab/Ephyra/OpenEphyra/lib/nlp/extjwnl-utilities-1.9.jar"/>
 	<classpathentry kind="lib" path="D:/Egyetem/onlab/Ephyra/OpenEphyra/lib/nlp/lingpipe.jar"/>
