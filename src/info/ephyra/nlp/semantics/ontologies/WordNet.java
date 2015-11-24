@@ -10,6 +10,7 @@ import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 
+//import net.sf.extjwnl.JWNL;
 import net.sf.extjwnl.JWNLException;
 import net.sf.extjwnl.data.IndexWord;
 import net.sf.extjwnl.data.IndexWordSet;
