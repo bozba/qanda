@@ -308,7 +308,7 @@ public class WordNet implements Ontology {
 			synset = indexWord.getSenses();
 		} catch (JWNLException e) {}
 		
-		return synset.isEmpty() ? null : synset.get(1);
+		return synset.isEmpty() ? null : synset.get(0);
 	}
 	
 	/**

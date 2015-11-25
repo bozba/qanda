@@ -31,5 +31,6 @@
 	<classpathentry kind="lib" path="D:/Egyetem/onlab/Ephyra/OpenEphyra/lib/util/htmlparser.jar"/>
 	<classpathentry kind="lib" path="D:/Egyetem/onlab/Ephyra/OpenEphyra/lib/util/log4j.jar"/>
 	<classpathentry kind="lib" path="D:/Egyetem/onlab/Ephyra/OpenEphyra/lib/util/trove.jar"/>
+	<classpathentry kind="lib" path="D:/Egyetem/onlab/qanda/lib/nlp/jwnl.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

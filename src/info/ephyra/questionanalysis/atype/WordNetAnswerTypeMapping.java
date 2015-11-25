@@ -80,10 +80,10 @@ public class WordNetAnswerTypeMapping {
                 throw new Exception("Required property 'jwnl.configuration' is undefined");
             JWNL.initialize(new FileInputStream(file_properties));
         }*/
-        String file_properties = System.getProperty("jwnl.configuration");
+        /*String file_properties = System.getProperty("jwnl.configuration");
         if (file_properties == null)
-            throw new Exception("Required property 'jwnl.configuration' is undefined");
-        dict = Dictionary.getInstance(new FileInputStream(file_properties));
+            throw new Exception("Required property 'jwnl.configuration' is undefined");*/
+        dict = Dictionary.getInstance(new FileInputStream(/*file_properties*/"res/ontologies/extjwnl/dictionary/file_properties.xml"));
         
         Properties properties = Properties.loadFromClassName(WordNetAnswerTypeMapping.class.getName());
         

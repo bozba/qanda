@@ -198,8 +198,8 @@ public class OpenEphyra
         // create WordNet dictionary
         MsgPrinter.printStatusMsg("Creating WordNet dictionary...");
         //if (!WordNet.initialize(dir + "res/ontologies/wordnet/file_properties.xml"))
-        //if (!WordNet.initialize(dir + "res/ontologies/extjwnl/dictionary/file_properties.xml"))
-        if (!WordNet.initialize(dir + "res/ontologies/extjwnl/dictionary/database_properties.xml"))
+        if (!WordNet.initialize(dir + "res/ontologies/extjwnl/dictionary/file_properties.xml"))
+        //if (!WordNet.initialize(dir + "res/ontologies/extjwnl/dictionary/database_properties.xml"))
             MsgPrinter.printErrorMsg("Could not create WordNet dictionary.");
 
         // load function words (numbers are excluded)
@@ -293,7 +293,7 @@ public class OpenEphyra
         // - knowledge miners for unstructured knowledge sources
         Search.clearKnowledgeMiners();
         //Search.addKnowledgeMiner(new BingAzureKM());
-        Search.addKnowledgeMiner(new IndriKM(new String[]{"D:\\Egyetem\\onlab\\capitals_index"}, false));
+        Search.addKnowledgeMiner(new IndriKM(new String[]{"D:\\Egyetem\\onlab\\indri_index\\capitals_index"}, false));
 
         // for (String[] indriIndices : IndriKM.getIndriIndices())
         // Search.addKnowledgeMiner(new IndriKM(indriIndices, false));
