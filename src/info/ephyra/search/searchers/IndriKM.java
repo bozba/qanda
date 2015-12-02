@@ -147,7 +147,8 @@ public class IndriKM extends KnowledgeMiner {
 			qs = qs.replace(m.group(0), "#1(" + m.group(1) + ")");
 		
 		// form passage query
-		qs = "#combine[p](" + qs + ")";
+		//qs = "#combine[p](" + qs + ")";
+		qs = "#combine(" + qs + ")";
 		
 		return qs;
 	}

@@ -346,6 +346,13 @@ public class OpenEphyra
         MsgPrinter.printSearching();
         Result[] results = Search.doSearch(queries);
 
+        System.out.println("Results: " + Integer.toString(results.length));
+        for (int i = 0; i < results.length; ++i) {
+        	//System.out.println(results[i].getAnswer());
+        	System.out.println(results[i].getDocID());
+        }
+        
+        
         // answer selection
         MsgPrinter.printSelectingAnswers();
         results = AnswerSelection.getResults(results, maxAnswers, absThresh);
